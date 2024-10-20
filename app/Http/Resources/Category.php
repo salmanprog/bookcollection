@@ -6,8 +6,9 @@ use App\Helpers\CustomHelper;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
+use App\Http\Resources\PublicUser;
 
-class PublicUser extends JsonResource
+class Category extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -19,9 +20,8 @@ class PublicUser extends JsonResource
     {
        return [
            'id'               => $this->id,
-           'name'             => $this->name,
            'slug'             => $this->slug,
-           'image_url'        => !empty($this->image_url) ? Storage::url($this->image_url) : URL::to('images/user-placeholder.jpg'),
+           'title'             => $this->title,
        ];
     }
 }

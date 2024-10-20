@@ -46,7 +46,7 @@ class ApiAuthorization
         }
         $key_file = config('constants.AES_SECRET');
         $iv_file  = config('constants.AES_IV');
-        $token = openssl_decrypt($token, 'aes-256-cbc', $key_file,0,$iv_file);
+        //$token = openssl_decrypt($token, 'aes-256-cbc', $key_file,0,$iv_file);
         if( empty($token) ){
             return response()->json([
                 'code'    => 401,

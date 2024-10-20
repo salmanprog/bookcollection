@@ -19,10 +19,6 @@ class UserHook
                 'mobile_no',
                 'password',
                 'status',
-                'is_email_verify',
-                'is_mobile_verify',
-                'mobile_otp',
-                'email_otp',
                 'remember_token',
             ];
 
@@ -66,7 +62,6 @@ class UserHook
         }
         //set data
         $postdata['user_group_id'] = 2;
-        $postdata['user_group_id'] = 1;
         $postdata['username']   = $this->_model::generateUniqueUserName($postdata['name']);
         $postdata['slug']       = $postdata['username'];
         $postdata['password']   = Hash::make($postdata['password']);

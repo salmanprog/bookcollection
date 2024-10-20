@@ -15,8 +15,9 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             CmsSeeder::class,
-            ContentManagementSeeder::class,
-            FaqSeeder::class
+            UserApiTokenSeeder::class,
+            CategorySeeder::class,
+            BookSeeder::class
         ]);
     }
 }

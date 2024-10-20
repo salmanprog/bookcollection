@@ -67,14 +67,6 @@ class UserController extends RestController
                     'slug'      => 'exists:users,slug,deleted_at,NULL,id,' . $this->__request['user']->id,
                     'name'      => ['min:3','max:50','regex:/^([A-Za-z0-9\s])+$/'],
                     'image_url' => ['sometimes','max:1024'],
-                    'country'   => 'min:3|max:50',
-                    'state'     => 'min:3|max:50',
-                    'city'      => 'min:3|max:50',
-                    'zipcode'   => 'min:3|max:50',
-                    'address'   => 'min:3|max:50',
-                    'latitude'  => 'min:3|max:50',
-                    'longitude' => 'min:3|max:50',
-                    'online_status' => 'in:0,1',
                 ],$custom_messages);
                 break;
         }

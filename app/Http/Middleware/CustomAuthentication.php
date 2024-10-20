@@ -100,7 +100,7 @@ class CustomAuthentication
         //decode AES
         $key_file = config('constants.AES_SECRET');
         $iv_file  = config('constants.AES_IV');
-        $api_token = openssl_decrypt($api_token, 'aes-256-cbc', $key_file,0,$iv_file);
+        //$api_token = openssl_decrypt($api_token, 'aes-256-cbc', $key_file,0,$iv_file);
         if( empty( $api_token ) ){
             return response()->json([
                 'code'    => 401,
@@ -145,15 +145,15 @@ class CustomAuthentication
                 'data'    => [ 'auth' => __('app.user_account_disabled') ]
             ],401);
         }
-        if( env('MAIL_SANDBOX') == '0' ){
-            if($user->is_email_verify != 1 ){
-                return response()->json([
-                    'code'    => 401,
-                    'message' => 'Unauthorized',
-                    'data'    => [ 'auth' => __('app.email_not_verified') ]
-                ],401);
-            }
-        }
+        // if( env('MAIL_SANDBOX') == '0' ){
+        //     if($user->is_email_verify != 1 ){
+        //         return response()->json([
+        //             'code'    => 401,
+        //             'message' => 'Unauthorized',
+        //             'data'    => [ 'auth' => __('app.email_not_verified') ]
+        //         ],401);
+        //     }
+        // }
         $this->request['api_token'] = $api_token;
         $this->request['user'] = $user;
     }

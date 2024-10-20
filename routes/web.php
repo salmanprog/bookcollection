@@ -34,9 +34,9 @@ Route::get('braintree-dropin/{customer_id}',[HomeController::class,'braintreeDro
 Route::get('content/{slug}',[HomeController::class,'getContent'])->name('content');
 Route::get('user/verify/{name}',[UserController::class,'verifyEmail'])->name('verifyEmail');
 Route::match(['get','post'],'user/reset-password/{any}',[UserController::class,'resetPassword'])->name('reset-password');
-Route::get('{module?}/{action?}/{slug?}', function () {
-    return view('vite');
-});
-// Route::get('/', function(){
-//     return view('welcome');
-// })->name('home');
+// Route::get('{module?}/{action?}/{slug?}', function () {
+//     return view('vite');
+// });
+Route::get('/', function(){
+    return view('welcome');
+})->name('home');

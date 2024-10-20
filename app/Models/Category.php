@@ -2,19 +2,26 @@
 
 namespace App\Models;
 
+use App\Helpers\CustomHelper;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Model;
 
-class ContentManagement extends Model
+class Category extends Authenticatable
 {
-    use SoftDeletes,CRUDGenerator;
+    use HasFactory, CRUDGenerator, SoftDeletes;
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'content_management';
+    protected $table = 'category';
 
     /**
      * The primary key associated with the table.
@@ -29,7 +36,7 @@ class ContentManagement extends Model
      * @var array
      */
     protected $fillable = [
-        'id', 'identifier', 'title', 'slug', 'content','status', 'created_at','updated_at'
+       'slug', 'title', 'image_url','status','created_at', 'updated_at', 'deleted_at'
     ];
 
     /**
@@ -37,7 +44,8 @@ class ContentManagement extends Model
      *
      * @var array
      */
-    protected $hidden = [];
+    protected $hidden = [
+    ];
 
     /**
      * It is used to enable or disable DB cache record
@@ -55,9 +63,13 @@ class ContentManagement extends Model
      */
     protected $__cache_expire_time = 1; //days
 
-    public static function getBySlug($slug = NULL)
+    public static function generateUniqueCategoryName($categoryname)
     {
-        return self::where("slug",$slug)->first();
+        $categoryname = Str::slug($categoryname);
+        $query = self::where('slug',$categoryname)->count();
+        if( $query > 0){
+            $categoryname = $categoryname . $query . rand(111,999);
+        }
+        return Str::slug($categoryname);
     }
-
 }

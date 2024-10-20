@@ -13,15 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('user_external_account', function (Blueprint $table) {
+        Schema::create('category', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->string('gateway_external_account_id');
-            $table->string('account_holder_name');
-            $table->string('last4_digit');
-            $table->enum('is_default',['1','0'])->default('0');
+            $table->string('slug',100)->unique();            
+            $table->string('title',255);
+            $table->text('image_url')->nullable();
+            $table->enum('status',['1','0'])->default('1');
             $table->timestamps();
             $table->softDeletes($column = 'deleted_at', $precision = 0);
+            $table->index(['slug','title'],'index1');
         });
     }
 
@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_external_account');
+        Schema::dropIfExists('category');
     }
 };

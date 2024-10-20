@@ -35,10 +35,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'user_group_id', 'user_type', 'name', 'username', 'slug', 'email', 'mobile_no', 'password', 'image_url','blur_image','status',
-        'platform_type','platform_id','is_email_verify', 'email_verify_at', 'is_mobile_verify', 'mobile_verify_at', 'country', 'city', 'state',
-        'zipcode', 'address', 'latitude', 'longitude', 'online_status','mobile_otp', 'email_otp', 'remember_token',
-        'gateway_customer_id','gateway_connect_id','created_at', 'updated_at', 'deleted_at'
+        'user_group_id', 'user_type', 'name', 'username', 'slug', 'email', 'mobile_no', 'password', 'image_url','platform_type','platform_id','status','remember_token','created_at', 'updated_at', 'deleted_at'
     ];
 
     /**
@@ -313,12 +310,6 @@ class User extends Authenticatable
                 'password'        => Hash::make($temp_password),
                 'mobile_no'       => !empty($params['mobile_no']) ? $params['mobile_no'] : null,
                 'image_url'       => $image_url,
-                'blur_image'      => $blur_image,
-                'is_email_verify' => 1,
-                'platform_type'   => $params['platform_type'],
-                'platform_id'     => $params['platform_id'],
-                'latitude'        => !empty($params['latitude']) ? $params['latitude'] : null,
-                'longitude'       => !empty($params['longitude']) ? $params['longitude'] : null,
                 'created_at'      => Carbon::now(),
             ]);
             $data->id = $record_id;

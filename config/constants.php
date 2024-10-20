@@ -2,7 +2,7 @@
 return [
     'ADMIN_DATE_FORMAT' => 'm-d-Y h:i A',
     'SECRET_KEY'        => 'base64:We4I6vFnREZq5ST1/pu2dHuTxT9Adj/5rMm23uLfM/k=',
-    'PAGINATION_LIMIT'  => 20,
+    'PAGINATION_LIMIT'  => 5,
     'ADMIN_AUTH_TOKEN'  => 'zekkmdvhkm',
     'CLIENT_ID'         => 'd8fd1732-582500-44fa-a03c-8d12aacc82de',
     'JWT_SECRET'        => 'W/G$w}sm,G%K!k@S$zekkmdvhkm;CiMQj*aWw#v5',

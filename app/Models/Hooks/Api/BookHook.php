@@ -1,10 +1,20 @@
 <?php
 
-namespace App\Models\Hooks\Admin;
+namespace App\Models\Hooks\Api;
 
-class ContentManagementHook
+use App\Helpers\CustomHelper;
+use App\Models\UserApiToken;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+
+class BookHook
 {
-    private $_model;
+    private $_model,
+            $except_update_params = [
+                'slug'
+            ];
 
     public function __construct($model)
     {
@@ -20,7 +30,16 @@ class ContentManagementHook
    |
    */
     public function hook_query_index(&$query,$request, $slug=NULL) {
-        //Your code here
+        $params = $request->all();
+        if(isset($params['genre'])){
+            $genre = $params['genre'];
+            $query->where('genre', 'LIKE', "%{$genre}%");
+        }
+        if(isset($params['author'])){
+            $author = $params['author'];
+            $query->where('auhtor_id',$author);
+        }
+       $query->with('author')->with('category');
     }
 
     /*
@@ -32,7 +51,13 @@ class ContentManagementHook
     */
     public function hook_before_add($request,&$postdata)
     {
-
+        //set data
+        $postdata['auhtor_id'] = $request['user']->id;
+        $postdata['slug']       = $this->_model::generateUniqueBookName($postdata['title']);;
+        $postdata['created_at'] = Carbon::now();
+        if( !empty($request['image_url']) ){
+            $postdata['image_url'] =  CustomHelper::uploadMedia('user',$request['image_url']);
+        }
     }
 
     /*
@@ -44,7 +69,8 @@ class ContentManagementHook
     */
     public function hook_after_add($request,$record)
     {
-        //Your code here
+       
+
     }
 
     /*
@@ -58,7 +84,13 @@ class ContentManagementHook
     */
     public function hook_before_edit($request, $slug, &$postData)
     {
-
+        foreach( $postData as $key => $value ){
+            if( in_array($key,$this->except_update_params) )
+                unset($postData[$key]);
+        }
+        if( !empty($postData['image_url']) ){
+            $postData['image_url'] = CustomHelper::uploadMedia('users',$postData['image_url']);
+        }
     }
 
     /*
@@ -96,11 +128,12 @@ class ContentManagementHook
     */
     public function hook_after_delete($request,$records) {
         //Your code here
+
     }
 
     public function create_cache_signature($request)
     {
-        $cache_params = $request->except(['user','api_token']);
-        return 'cms_' . md5(implode('',$cache_params));
+        $cache_params = $request->isMethod('post') ? [] : $request->except(['user','api_token']);
+        return 'users_api_' . md5(implode('',$cache_params));
     }
 }
