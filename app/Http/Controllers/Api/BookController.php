@@ -9,6 +9,7 @@ use Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 use App\Http\Controllers\RestController;
+use App\Models\Book;
 
 class BookController extends RestController
 {
@@ -150,5 +151,19 @@ class BookController extends RestController
     public function afterDestroyLoadModel($request,$slug)
     {
 
+    }
+
+    public function searchBooks()
+    {
+        $request = $this->__request;
+        $param_rule = [];
+        $response = $this->__validateRequestParams($request->all(),$param_rule);
+        if( $this->__is_error )
+            return $response;
+        
+        $record = Book::bookSearch($request->all());
+        $this->__is_paginate   = true;
+        $this->__apiResource = 'Book';
+        return $this->__sendResponse($record,200,__('app.login_success_msg'));
     }
 }

@@ -36,7 +36,7 @@ class Book extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'auhtor_id', 'slug', 'title', 'publish_date', 'category_id', 'genre', 'image_url','status','created_at', 'updated_at', 'deleted_at'
+        'auhtor_id','author_name', 'slug', 'title', 'publish_date', 'category_id', 'genre', 'image_url','status','created_at', 'updated_at', 'deleted_at'
     ];
 
     /**
@@ -81,5 +81,21 @@ class Book extends Authenticatable
             $bookname = $bookname . $query . rand(111,999);
         }
         return Str::slug($bookname);
+    }
+
+    public static function bookSearch($request)
+    {
+        $query = self::select();
+        if(!empty($request['author'])){
+            $author = $request['author'];
+            $query = $query->where('author_name','like',"$author%");
+        }
+        if(!empty($request['genre'])){
+            $genre = $request['genre'];
+            $query = $query->where('genre','like',"$genre%");
+        }
+        $limit = config('constants.PAGINATION_LIMIT');
+        $query = $query->simplePaginate($limit);
+        return $query;
     }
 }

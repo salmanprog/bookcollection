@@ -26,6 +26,7 @@ Route::middleware([ApiAuthorization::class])->group(function(){
     
     Route::middleware(['custom_auth:api'])->group(function(){
         Route::resource('book',BookController::class);
+        Route::get('search/book',[BookController::class,'searchBooks'])->name('api.search');
         
     });
 });

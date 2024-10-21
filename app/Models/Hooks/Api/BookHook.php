@@ -53,6 +53,7 @@ class BookHook
     {
         //set data
         $postdata['auhtor_id'] = $request['user']->id;
+        $postdata['author_name'] = $request['user']->name;
         $postdata['slug']       = $this->_model::generateUniqueBookName($postdata['title']);;
         $postdata['created_at'] = Carbon::now();
         if( !empty($request['image_url']) ){
